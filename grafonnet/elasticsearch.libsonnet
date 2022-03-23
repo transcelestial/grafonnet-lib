@@ -16,6 +16,7 @@
     query,
     timeField,
     id=null,
+    queryType=null,
     datasource=null,
     metrics=[{
       field: 'value',
@@ -41,11 +42,12 @@
   ):: {
     [if datasource != null then 'datasource']: datasource,
     query: query,
-    id: id,
+    [if queryType != null then 'queryType']: queryType,
+    [if id != null then 'id']: id,
     timeField: timeField,
     bucketAggs: bucketAggs,
     metrics: metrics,
-    alias: alias,
+    [if alias != null then 'alias']: alias,
     // TODO: generate bucket ids
   },
 }

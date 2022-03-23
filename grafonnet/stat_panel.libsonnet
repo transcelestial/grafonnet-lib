@@ -55,7 +55,7 @@
     graphMode='area',
     textMode='auto',
     justifyMode='auto',
-    unit='none',
+    unit=null,
     min=null,
     max=null,
     decimals=null,
@@ -96,6 +96,11 @@
     },
     addLinks(links):: std.foldl(function(p, l) p.addLink(l), links, self),
 
+    addTransformation(transformation):: self {
+      transformations+: [transformation],
+    },
+    addTransformations(transformations):: std.foldl(function(p, t) p.addTransformation(t), transformations, self),
+
     pluginVersion: pluginVersion,
   } + (
 
@@ -117,7 +122,11 @@
       },
       fieldConfig: {
         defaults: {
-          unit: unit,
+          [if unit!=null then 'unit']: unit,
+          color: {
+            mode: "thresholds"
+          },
+          decimals: 2,
           [if min != null then 'min']: min,
           [if max != null then 'max']: max,
           [if decimals != null then 'decimals']: decimals,
@@ -175,7 +184,7 @@
           ],
           fields: fields,
           defaults: {
-            unit: unit,
+            [if unit != null then 'unit']: unit,
             [if min != null then 'min']: min,
             [if max != null then 'max']: max,
             [if decimals != null then 'decimals']: decimals,
